@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 const authRoutes = require("./routes/auth");
 const hospitalRoutes = require("./routes/hospital");
+const departmentRoutes = require("./routes/department");
 
 // Connect to MongoDB
 mongoose.connect(process.env.DBHOST, {
@@ -38,6 +39,8 @@ app.get("/api/welcome", (req, res) => {
 // API Routes
 app.use("/api/user", authRoutes.router);
 app.use("/api/hospitals", hospitalRoutes);
+// app.use("/api/departments", departmentRoutes);
+app.use("/api/hospitals", departmentRoutes);
 
 
 // Swagger setup

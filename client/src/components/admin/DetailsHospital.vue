@@ -1,124 +1,371 @@
 <template>
-    <div>
-      <h1>Hospital Details</h1>
-      <div v-if="hospital">
-        <h2>{{ hospital.name }}</h2>
-        <p>Address: {{ hospital.address }}</p>
-        <p>Phone: {{ hospital.phone }}</p>
-        <!-- Add more details as needed -->
-        <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+  <div>
+    <h1>Hospital Details</h1>
+    <div v-if="hospital">
+      <h2>{{ hospital.name }}</h2>
+      <p>Address: {{ hospital.address }}</p>
+      <p>Phone: {{ hospital.phone }}</p>
+      
+      <!-- Button to create a new department -->
+      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary">Create Department</router-link>
+      
+      <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+
+      <!-- Display departments -->
+      <div v-if="hospital.departments.length > 0">
+        <h3>Departments</h3>
+        <ul>
+          <li v-for="department in hospital.departments" :key="department._id">
+            {{ department.name }}
+            <!-- Add more department details here if needed -->
+            <button @click="deleteDepartment(hospital._id, department._id)" class="btn btn-sm btn-danger">Delete</button>
+          </li>
+        </ul>
       </div>
       <div v-else>
-        <p>Loading...</p>
+        <p>No departments found</p>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        hospital: null,
-      };
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hospital: null,
+    };
+  },
+  created() {
+    this.fetchHospitalDetails();
+  },
+  methods: {
+    fetchHospitalDetails() {
+      const hospitalId = this.$route.params.id;
+      fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.hospital = data;
+        })
+        .catch(error => {
+          console.error('Error fetching hospital details:', error);
+        });
     },
-    created() {
-      this.fetchHospitalDetails();
+    deleteHospital(id) {
+      // ... (existing logic for deleting hospital)
     },
-    methods: {
-      fetchHospitalDetails() {
-        const hospitalId = this.$route.params.id;
-        fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+    deleteDepartment(hospitalId, departmentId) {
+      if (confirm('Are you sure you want to delete this department?')) {
+        fetch(`http://localhost:3000/api/hospitals/${hospitalId}/departments/${departmentId}`, {
+          method: 'DELETE',
+        })
           .then(response => {
             if (!response.ok) {
-              throw new Error('Network response was not ok');
+              throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
             }
-            return response.json();
-          })
-          .then(data => {
-            this.hospital = data;
+            // Refresh the hospital details after department deletion
+            this.fetchHospitalDetails();
           })
           .catch(error => {
-            console.error('Error fetching hospital details:', error);
+            console.error('Error deleting department:', error);
+            if (error.response) {
+              console.error('Error response:', error.response);
+            }
           });
-      },
-      deleteHospital(id) {
-        if (confirm('Are you sure you want to delete this hospital?')) {
-          fetch(`http://localhost:3000/api/hospitals/${id}`, {
-            method: 'DELETE',
-          })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json();
-            })
-            .then(() => {
-              // After successful deletion, redirect the user to the hospital list page
-              this.$router.push({ name: 'ListHospital' });
-            })
-            .catch(error => {
-              console.error('Error deleting hospital:', error);
-            });
-        }
-      },
+      }
     },
-  };
-  </script>
-  
-  <style>
-  /* Your styles here */
-  </style>
-  
+  },
+};
+</script>
+
+<style>
+/* Your styles here */
+</style>
+
+
+
+
 
 
 
 <!-- <template>
-    <div>
-      <h1>Hospital Details</h1>
-      <div v-if="hospital">
-        <h2>{{ hospital.name }}</h2>
-        <p>Address: {{ hospital.address }}</p>
-        <p>Phone: {{ hospital.phone }}</p>
-        
+  <div>
+    <h1>Hospital Details</h1>
+    <div v-if="hospital">
+      <h2>{{ hospital.name }}</h2>
+      <p>Address: {{ hospital.address }}</p>
+      <p>Phone: {{ hospital.phone }}</p>
+      
+      
+      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary">Create Department</router-link>
+      
+      <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+
+      
+      <div v-if="hospital.departments.length > 0">
+        <h3>Departments</h3>
+        <ul>
+          <li v-for="department in hospital.departments" :key="department._id">
+            {{ department.name }}
+            
+            <button @click="deleteDepartment(hospital._id, department._id)" class="btn btn-sm btn-danger">Delete</button>
+          </li>
+        </ul>
       </div>
       <div v-else>
-        <p>Loading...</p>
+        <p>No departments found</p>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        hospital: null,
-      };
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hospital: null,
+    };
+  },
+  created() {
+    this.fetchHospitalDetails();
+  },
+  methods: {
+    fetchHospitalDetails() {
+      const hospitalId = this.$route.params.id;
+      fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.hospital = data;
+        })
+        .catch(error => {
+          console.error('Error fetching hospital details:', error);
+        });
     },
-    created() {
-      this.fetchHospitalDetails();
-    },
-    methods: {
-      fetchHospitalDetails() {
-        const hospitalId = this.$route.params.id;
-        fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+    deleteHospital(id) {
+      if (confirm('Are you sure you want to delete this hospital?')) {
+        fetch(`http://localhost:3000/api/hospitals/${id}`, {
+          method: 'DELETE',
+        })
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
             return response.json();
           })
-          .then(data => {
-            this.hospital = data;
+          .then(() => {
+            // After successful deletion, redirect the user to the hospital list page
+            this.$router.push({ name: 'ListHospital' });
           })
           .catch(error => {
-            console.error('Error fetching hospital details:', error);
+            console.error('Error deleting hospital:', error);
           });
-      },
+      }
     },
-  };
-  </script>
-  
-  <style>
-  /* Your styles here */
-  </style>
-   -->
+    deleteDepartment(hospitalId, departmentId) {
+      if (confirm('Are you sure you want to delete this department?')) {
+        fetch(`http://localhost:3000/api/hospitals/${hospitalId}/departments/${departmentId}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            // Refresh the hospital details after department deletion
+            this.fetchHospitalDetails();
+          })
+          .catch(error => {
+            console.error('Error deleting department:', error);
+          });
+      }
+    },
+  },
+};
+</script>
+
+<style>
+/* Your styles here */
+</style> -->
+
+
+
+<!-- <template>
+  <div>
+    <h1>Hospital Details</h1>
+    <div v-if="hospital">
+      <h2>{{ hospital.name }}</h2>
+      <p>Address: {{ hospital.address }}</p>
+      <p>Phone: {{ hospital.phone }}</p>
+      
+      
+      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary">Create Department</router-link>
+      
+      <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+
+      
+      <div v-if="hospital.departments.length > 0">
+        <h3>Departments</h3>
+        <ul>
+          <li v-for="department in hospital.departments" :key="department._id">
+            {{ department.name }}
+            
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <p>No departments found</p>
+      </div>
+    </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hospital: null,
+    };
+  },
+  created() {
+    this.fetchHospitalDetails();
+  },
+  methods: {
+    fetchHospitalDetails() {
+      const hospitalId = this.$route.params.id;
+      fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.hospital = data;
+        })
+        .catch(error => {
+          console.error('Error fetching hospital details:', error);
+        });
+    },
+    deleteHospital(id) {
+      if (confirm('Are you sure you want to delete this hospital?')) {
+        fetch(`http://localhost:3000/api/hospitals/${id}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(() => {
+            // After successful deletion, redirect the user to the hospital list page
+            this.$router.push({ name: 'ListHospital' });
+          })
+          .catch(error => {
+            console.error('Error deleting hospital:', error);
+          });
+      }
+    },
+  },
+};
+</script>
+
+<style>
+/* Your styles here */
+</style> -->
+
+
+
+
+<!-- <template>
+  <div>
+    <h1>Hospital Details</h1>
+    <div v-if="hospital">
+      <h2>{{ hospital.name }}</h2>
+      <p>Address: {{ hospital.address }}</p>
+      <p>Phone: {{ hospital.phone }}</p>
+      
+      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary">Create Department</router-link>
+      
+      <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+    </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hospital: null,
+    };
+  },
+  created() {
+    this.fetchHospitalDetails();
+  },
+  methods: {
+    fetchHospitalDetails() {
+      const hospitalId = this.$route.params.id;
+      fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.hospital = data;
+        })
+        .catch(error => {
+          console.error('Error fetching hospital details:', error);
+        });
+    },
+    deleteHospital(id) {
+      if (confirm('Are you sure you want to delete this hospital?')) {
+        fetch(`http://localhost:3000/api/hospitals/${id}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(() => {
+            // After successful deletion, redirect the user to the hospital list page
+            this.$router.push({ name: 'ListHospital' });
+          })
+          .catch(error => {
+            console.error('Error deleting hospital:', error);
+          });
+      }
+    },
+  },
+};
+</script>
+
+<style>
+/* Your styles here */
+</style>
+
+ -->

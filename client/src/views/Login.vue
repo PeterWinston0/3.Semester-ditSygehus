@@ -63,9 +63,9 @@ export default {
 
           // Redirect based on user role
           if (userRole === 'admin') {
-            this.$router.push('/dashboardadmin');
+            this.$router.push('/admin/dashboard');
           } else {
-            this.$router.push('/dashboarduser');
+            this.$router.push('/user/home');
           }
         } else {
           // Login failed, display error message to the user
