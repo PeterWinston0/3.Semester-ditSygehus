@@ -23,10 +23,11 @@ router.get('/:hospitalId/departments/:departmentId/sections', async (req, res) =
 });
 
 // POST create a section in a department
+
 router.post('/:hospitalId/departments/:departmentId/sections', async (req, res) => {
   try {
     const { hospitalId, departmentId } = req.params;
-    const { name /* add other section fields */ } = req.body;
+    const { name, description, contactName, phoneNumber, numberOfEmployees } = req.body;
 
     const hospital = await Hospital.findById(hospitalId);
     if (!hospital) {
@@ -38,15 +39,51 @@ router.post('/:hospitalId/departments/:departmentId/sections', async (req, res) 
       return res.status(404).json({ message: 'Department not found' });
     }
 
-    const newSection = { name /* add other section fields */ };
+    const newSection = {
+      name,
+      description,
+      contactName,
+      phoneNumber,
+      numberOfEmployees,
+    };
+
     department.sections.push(newSection);
     await hospital.save();
 
     res.status(201).json(newSection);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error adding section:', error);
+    res.status(500).json({ message: 'Error adding section' });
   }
 });
+
+
+
+
+// router.post('/:hospitalId/departments/:departmentId/sections', async (req, res) => {
+//   try {
+//     const { hospitalId, departmentId } = req.params;
+//     const { name /* add other section fields */ } = req.body;
+
+//     const hospital = await Hospital.findById(hospitalId);
+//     if (!hospital) {
+//       return res.status(404).json({ message: 'Hospital not found' });
+//     }
+
+//     const department = hospital.departments.id(departmentId);
+//     if (!department) {
+//       return res.status(404).json({ message: 'Department not found' });
+//     }
+
+//     const newSection = { name /* add other section fields */ };
+//     department.sections.push(newSection);
+//     await hospital.save();
+
+//     res.status(201).json(newSection);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
 // PUT update a section in a department
 router.put('/:hospitalId/departments/:departmentId/sections/:sectionId', async (req, res) => {

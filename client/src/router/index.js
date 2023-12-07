@@ -31,6 +31,18 @@ const router = createRouter({
         component: () => import("@/views/AdminSettings.vue"),
       },
       {
+        path: "listuser",
+        //name: "ListHospital",
+        component: () => import("@/components/admin/ListUser.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/edituser/:userId',
+        name: 'EditUser',
+        component: () => import("@/components/admin/EditUser.vue"),
+        //component: EditUser
+      },
+      {
         path: "createhospital",
         //name: "CreateHospital",
         component: () => import("@/components/admin/CreateHospital.vue"),
