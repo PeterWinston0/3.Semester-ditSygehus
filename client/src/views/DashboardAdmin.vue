@@ -3,10 +3,6 @@
         <h1>Dashboard Admin</h1>
         <h4 class="text-lg font-semibold mb-2">Welcome {{ userName }}</h4>
         <Logout />
-        <!-- <nav>
-            <RouterLink to="/CreateHospital" class="nav-link">Create Hospital</RouterLink>
-            <RouterLink to="/ListHospital" class="nav-link">All Hospitals</RouterLink>
-        </nav> -->
     </div>
 </template>
 

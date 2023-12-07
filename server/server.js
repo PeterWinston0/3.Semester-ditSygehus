@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const profileRoutes = require("./routes/profile");
 const hospitalRoutes = require("./routes/hospital");
 const departmentRoutes = require("./routes/department");
 const sectionsRoutes = require("./routes/sections");
@@ -41,6 +42,7 @@ app.get("/api/welcome", (req, res) => {
 // API Routes
 app.use("/api/user", authRoutes.router);
 app.use("/api", userRoutes);
+app.use("/api", profileRoutes);
 app.use("/api/hospitals", hospitalRoutes);
 app.use("/api/hospitals", departmentRoutes);
 app.use("/api/hospitals", sectionsRoutes);

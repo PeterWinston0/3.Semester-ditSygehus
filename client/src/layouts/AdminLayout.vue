@@ -1,34 +1,34 @@
 <template>
-    <div>
-      <header>
+  <div>
+    <header>
+      <h1>Admin Header</h1>
 
-        <h1>Admin Header</h1>
-        
-        <Navigation />
-        <Logout />
-      </header>
+      <Navigation />
+      <Logout />
+    </header>
 
-      <main>
-        <router-view />
-      </main>
-  
-      <footer>
-        <p>Admin Footer</p>
-      </footer>
-    </div>
-  </template>
-  
-  <script>
-  import Navigation from "../components/admin/Navigation.vue";
-  import Logout from "../components/Logout.vue";
+    <main>
+      <router-view />
+    </main>
 
-  export default {
-    name: 'AdminLayout',
+    <footer>
+      <p>Admin Footer</p>
+    </footer>
+  </div>
+</template>
 
-    components: {
-            Navigation,
-            Logout,
-        },
-  };
-  </script>
+<script>
+import Navigation from "../components/admin/Navigation.vue";
+import Logout from "../components/Logout.vue";
 
+export default {
+  name: "AdminLayout",
+
+  components: {
+    Navigation,
+    Logout,
+  },
+};
+</script>
+
+<style></style>

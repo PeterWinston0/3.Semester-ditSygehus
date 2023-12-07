@@ -32,8 +32,12 @@ const router = createRouter({
       },
       {
         path: "listuser",
-        //name: "ListHospital",
         component: () => import("@/components/admin/ListUser.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "profile",
+        component: () => import("@/components/admin/Profile.vue"),
         meta: { requiresAuth: true },
       },
       {
@@ -91,10 +95,10 @@ const router = createRouter({
         path: "home", // User home route
         component: () => import("@/views/Home.vue"),
       },
-      {
-        path: "profile",
-        component: () => import("@/views/UserProfile.vue"),
-      },
+      // {
+      //   path: "profile",
+      //   component: () => import("@/views/UserProfile.vue"),
+      // },
       // Other user routes
     ],
   },
