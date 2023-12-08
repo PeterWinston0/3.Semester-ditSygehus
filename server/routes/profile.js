@@ -4,6 +4,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -109,6 +110,23 @@ router.delete('/user/profile', verifyToken, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+router.get("/user/profile-picture/:imageName", (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(__dirname, "../uploads/", imageName);
+
+  console.log("Image path:", imagePath); // Log the image path for debugging
+
+  // Check if the file exists
+  fs.access(imagePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error("Error accessing image:", err);
+      res.status(404).send("Image not found");
+    } else {
+      res.sendFile(imagePath);
+    }
+  });
 });
 
 module.exports = router;

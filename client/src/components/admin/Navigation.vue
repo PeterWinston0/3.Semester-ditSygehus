@@ -7,6 +7,7 @@
         <router-link to="/admin/listhospital" class="nav-link">All Hospitals</router-link>
         <router-link to="/admin/listuser" class="nav-link">All Users</router-link>
         <router-link to="/admin/profile" class="nav-link">My Profile</router-link>
+        <router-link to="/admin/createarticle" class="nav-link">Create Article</router-link>
       </nav>
     </div>
   </template>

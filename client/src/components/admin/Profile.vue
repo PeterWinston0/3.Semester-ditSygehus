@@ -145,24 +145,11 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     getProfilePictureUrl(picturePath) {
-  if (!picturePath) {
-    return ''; // Return a placeholder image or default image URL if no picture path is available
-  }
-  return `http://localhost:3000/server/${picturePath}`;
-},
-    // getProfilePictureUrl(picturePath) {
-    //   if (!picturePath) {
-    //     return ''; // Return a placeholder image or default image URL if no picture path is available
-    //   }
-    //   return `http://localhost:3000/server/${picturePath}`; // Replace 'server/uploads' with the correct path to your server's uploads folder
-    // },
-
-    // getProfilePictureUrl(picturePath) {
-    //   if (!picturePath) {
-    //     return ''; // Return a placeholder image or default image URL if no picture path is available
-    //   }
-    //   return `http://localhost:3000/uploads/${picturePath}`; // Replace 'uploads' with the actual route to your server uploads folder
-    // },
+      if (!picturePath) {
+        return ''; // Return a placeholder image or default image URL if no picture path is available
+      }
+      return `http://localhost:3000/server/${picturePath}`;
+    },
   },
 };
 </script>
