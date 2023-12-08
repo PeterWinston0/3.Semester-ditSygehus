@@ -15,6 +15,9 @@
         <!-- Display user details -->
         <p><strong>Name:</strong> {{ userData.name }}</p>
         <p><strong>Email:</strong> {{ userData.email }}</p>
+        <p><strong>Picture:</strong> {{ userData.profilePicture }}</p>
+
+        <img :src="getProfilePictureUrl(userData.profilePicture)" alt="Profile Picture" />
         <input type="file" @change="onFileChange" />
         <!-- Display other user profile data -->
         <button @click="startEdit">Edit</button>
@@ -34,8 +37,8 @@ export default {
       editing: false,
       updating: false,
       editedData: {
-        name: "",
-        email: "",
+        name: '',
+        email: '',
         // Add other fields as needed
       },
       selectedFile: null,
@@ -46,22 +49,22 @@ export default {
   },
   methods: {
     async fetchUserData() {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       if (!token) {
-        console.error("No token found");
+        console.error('No token found');
         return;
       }
 
       try {
-        const response = await fetch("http://localhost:3000/api/user/profile", {
+        const response = await fetch('http://localhost:3000/api/user/profile', {
           headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
+            'Content-Type': 'application/json',
+            'auth-token': token,
           },
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch user data");
+          throw new Error('Failed to fetch user data');
         }
 
         const userData = await response.json();
@@ -69,7 +72,7 @@ export default {
         // Copy the fetched data for editing
         this.editedData = { ...userData };
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching user data:', error);
       }
     },
     startEdit() {
@@ -77,31 +80,31 @@ export default {
     },
     async saveChanges() {
       this.updating = true;
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       if (!token) {
-        console.error("No token found");
+        console.error('No token found');
         return;
       }
 
       try {
-        const response = await fetch("http://localhost:3000/api/user/profile", {
-          method: "PUT",
+        const response = await fetch('http://localhost:3000/api/user/profile', {
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
+            'Content-Type': 'application/json',
+            'auth-token': token,
           },
           body: JSON.stringify(this.editedData),
         });
 
         if (!response.ok) {
-          throw new Error("Failed to update user data");
+          throw new Error('Failed to update user data');
         }
 
         this.userData = { ...this.editedData };
         this.editing = false;
         this.updating = false;
       } catch (error) {
-        console.error("Error updating user data:", error);
+        console.error('Error updating user data:', error);
         this.updating = false;
       }
     },
@@ -112,70 +115,54 @@ export default {
     },
     async uploadProfilePicture() {
       const formData = new FormData();
-      formData.append("profilePicture", this.selectedFile);
+      formData.append('profilePicture', this.selectedFile);
 
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         if (!token) {
-          console.error("No token found");
+          console.error('No token found');
           return;
         }
 
-        const response = await fetch(
-          "http://localhost:3000/api/user/profile-picture",
-          {
-            method: "POST",
-            headers: {
-              "auth-token": token, // Send the token in 'auth-token' header
-            },
-            body: formData,
-          }
-        );
+        const response = await fetch('http://localhost:3000/api/user/profile-picture', {
+          method: 'POST',
+          headers: {
+            'auth-token': token, // Send the token in 'auth-token' header
+          },
+          body: formData,
+        });
 
         if (response.ok) {
-          console.log("Profile picture uploaded successfully");
+          console.log('Profile picture uploaded successfully');
         } else {
-          console.error("Failed to upload profile picture");
+          console.error('Failed to upload profile picture');
         }
       } catch (error) {
-        console.error("Error uploading profile picture:", error);
+        console.error('Error uploading profile picture:', error);
       }
     },
-
-    // async uploadProfilePicture() {
-    //   const formData = new FormData();
-    //   formData.append("profilePicture", this.selectedFile);
-
-    //   try {
-    //     const token = localStorage.getItem("token");
-    //     if (!token) {
-    //       console.error("No token found");
-    //       return;
-    //     }
-
-    //     const response = await fetch(
-    //       "http://localhost:3000/api/user/profile-picture",
-    //       {
-    //         method: "POST",
-    //         headers: {
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //         body: formData,
-    //       }
-    //     );
-
-    //     if (response.ok) {
-    //       console.log("Profile picture uploaded successfully");
-    //     } else {
-    //       console.error("Failed to upload profile picture");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error uploading profile picture:", error);
-    //   }
-    // },
     onFileChange(event) {
       this.selectedFile = event.target.files[0];
     },
+    getProfilePictureUrl(picturePath) {
+  if (!picturePath) {
+    return ''; // Return a placeholder image or default image URL if no picture path is available
+  }
+  return `http://localhost:3000/server/${picturePath}`;
+},
+    // getProfilePictureUrl(picturePath) {
+    //   if (!picturePath) {
+    //     return ''; // Return a placeholder image or default image URL if no picture path is available
+    //   }
+    //   return `http://localhost:3000/server/${picturePath}`; // Replace 'server/uploads' with the correct path to your server's uploads folder
+    // },
+
+    // getProfilePictureUrl(picturePath) {
+    //   if (!picturePath) {
+    //     return ''; // Return a placeholder image or default image URL if no picture path is available
+    //   }
+    //   return `http://localhost:3000/uploads/${picturePath}`; // Replace 'uploads' with the actual route to your server uploads folder
+    // },
   },
 };
 </script>
