@@ -13,7 +13,7 @@ require("dotenv-flow").config();
 app.use(bodyParser.json());
 
 // Serve static files from the 'server/uploads' directory
-app.use("/uploads", express.static("server/uploads"));
+app.use("/uploads", express.static("../client"));
 
 // Connect to MongoDB
 mongoose.connect(process.env.DBHOST, {
