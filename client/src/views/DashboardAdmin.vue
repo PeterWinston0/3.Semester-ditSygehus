@@ -2,12 +2,10 @@
     <div>
         <h1>Dashboard Admin</h1>
         <h4 class="text-lg font-semibold mb-2">Welcome {{ userName }}</h4>
-        <Logout />
     </div>
 </template>
 
 <script>
-import Logout from "../components/Logout.vue";
 
 export default {
   data() {
@@ -24,7 +22,7 @@ export default {
     }
   },
   components: {
-    Logout,
+    
   },
 };
 </script>

@@ -15,6 +15,7 @@
       <footer>
         <p>User Footer</p>
       </footer>
+
     </div>
   </template>
   

@@ -64,6 +64,12 @@ const router = createRouter({
         meta: { requiresAuth: true },
       },
       {
+        path: "listarticle",
+        //name: "ListHospital",
+        component: () => import("@/components/admin/ListArticles.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "hospitals/:id", // Dynamic route to handle hospital details using ID
         name: "DetailsHospital",
         component: () => import("@/components/admin/DetailsHospital.vue"),
