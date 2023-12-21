@@ -53,7 +53,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/articles/:articleId", async (req, res) => {
+router.get("/:articleId", async (req, res) => {
   try {
     const article = await Article.findById(req.params.articleId);
     if (!article) {
@@ -66,7 +66,7 @@ router.get("/articles/:articleId", async (req, res) => {
   }
 });
 
-router.put("/articles/:articleId", async (req, res) => {
+router.put("/:articleId", async (req, res) => {
   try {
     const { title, content, hospitalId, departmentId } = req.body;
     const updatedArticle = await Article.findByIdAndUpdate(

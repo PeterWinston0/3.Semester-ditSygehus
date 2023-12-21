@@ -50,7 +50,7 @@ app.use("/api", profileRoutes);
 app.use("/api/hospitals", hospitalRoutes);
 app.use("/api/hospitals", departmentRoutes);
 app.use("/api/hospitals", sectionsRoutes);
-app.use("/api/hospitals", articleRoutes);
+app.use("/api/articles", articleRoutes);
 
 
 // Swagger setup

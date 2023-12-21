@@ -4,9 +4,7 @@
       <ul>
         <!-- Dashboard -->
         <li>
-          <router-link to="/admin/dashboard" class="nav-link"
-            ><p>Dashboard</p></router-link
-          >
+          <router-link to="/admin/dashboard" class="nav-link"><p>Dashboard</p></router-link>
         </li>
 
         <!-- Category 1 -->
