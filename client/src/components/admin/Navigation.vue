@@ -16,6 +16,11 @@
                 >All Users</router-link
               >
             </li>
+            <li>
+              <router-link to="/admin/createuser" class="nav-link"
+                >Create User</router-link
+              >
+            </li>
           </ul>
         </li>
 

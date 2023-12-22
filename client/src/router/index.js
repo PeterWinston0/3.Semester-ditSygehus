@@ -7,7 +7,11 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/login", // Redirect to login page initially
+      redirect: "/landing", // Redirect to login page initially
+    },
+    {
+      path: "/landing",
+      component: () => import("@/views/Landing.vue"),
     },
     {
       path: "/login",
@@ -33,6 +37,11 @@ const router = createRouter({
         {
           path: "listuser",
           component: () => import("@/components/admin/ListUser.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "createuser",
+          component: () => import("@/components/admin/CreateUser.vue"),
           meta: { requiresAuth: true },
         },
         {

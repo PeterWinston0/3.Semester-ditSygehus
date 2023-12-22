@@ -13,7 +13,7 @@ main {
   min-height: 100vh;
 }
 
-.header {
+.admin-header {
   display: flex;
   justify-content: flex-end;
   padding: 30px;

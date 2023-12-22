@@ -1,6 +1,6 @@
 <template>
     <div class="registration-page">
-      <h1>Registration</h1>
+      <h1>Create User</h1>
       <form @submit.prevent="register" class="registration-form">
         <div class="form-group">
           <label for="name">Name:</label>

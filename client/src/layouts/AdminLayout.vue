@@ -10,11 +10,10 @@
       <Navigation />
     </div>
     <div class="body-container">
-      <div class="header">
+      <div class="admin-header">
         <div class="profile-dropdown">
           <div class="user-header" @click="toggleDropdown">
             <img :src="profilePictureUrl" alt="Profile Picture" />
-            <!-- <img src="../../uploads/1703072247903.png" alt="Profile"/> -->
             <p>{{ userName }}</p>
           </div>
           <div v-if="dropdownVisible" class="dropdown-style">

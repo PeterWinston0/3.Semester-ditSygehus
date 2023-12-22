@@ -11,7 +11,7 @@
         // Clear the stored token from local storage or cookies
         localStorage.removeItem('token'); 
         // Redirect the user to the login page or any other appropriate page
-        this.$router.push('/login');
+        this.$router.push('/landing');
       }
     }
   };
