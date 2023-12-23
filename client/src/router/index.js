@@ -31,10 +31,6 @@ const router = createRouter({
           component: () => import("@/views/DashboardAdmin.vue"),
         },
         {
-          path: "settings",
-          component: () => import("@/views/AdminSettings.vue"),
-        },
-        {
           path: "listuser",
           component: () => import("@/components/admin/ListUser.vue"),
           meta: { requiresAuth: true },
@@ -116,19 +112,32 @@ const router = createRouter({
           path: "home", // User home route
           component: () => import("@/views/Home.vue"),
         },
-        // {
-        //   path: "profile",
-        //   component: () => import("@/views/UserProfile.vue"),
-        // },
+        {
+          path: "patienthospitals",
+          component: () => import("@/views/PatientHospitals.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "hospitals/:id",
+          name: "department",
+          component: () => import("@/views/Departments.vue"),
+          props: true,
+        },
+        {
+          path: "/hospitals/:hospitalId/department/:departmentId",
+          name: "sections",
+          component: () => import("@/views/Sections.vue"),
+        },
+        {
+          path: "/hospitals/:hospitalId/department/:departmentId/sections/:sectionId",
+          name: "SectionInfo",
+          component: () => import("@/views/SectionInfo.vue"),
+        },
         // Other user routes
       ],
     },
     // Other routes or a catch-all route if needed
   ],
-
-  // const router = createRouter({
-  //   history: createWebHistory(),
-  //   routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -136,7 +145,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     // Redirect to login if attempting to access a protected route without authentication
-    next("/login");
+    next("/landing");
   } else {
     next();
   }

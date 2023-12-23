@@ -5,7 +5,7 @@
         <router-link to="/login" class="wrap">Akutmodtagelse</router-link>
       </div>
       <div class="btn">
-        <router-link to="/login" class="wrap">Patientforløb</router-link>
+        <router-link to="patienthospitals" class="wrap">Patientforløb</router-link>
       </div>
       <div class="btn">
         <router-link to="/login" class="wrap">Borgersupport</router-link>

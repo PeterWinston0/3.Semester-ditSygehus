@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <a href="#">Tilbage</a>
+      <button @click="goBack">Tilbage</button>
       <h2>Velkommen</h2>
 
       <!-- <Logout /> -->
@@ -23,6 +23,11 @@ export default {
   components: {
     Logout,
   },
+  methods: {
+    goBack() {
+      this.$router.go(-1); // Navigate back to the previous page
+    },
+  },
 };
 </script>
 
@@ -37,8 +42,8 @@ export default {
     box-sizing: border-box;
     padding: 15px;
     height: 15vh;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    /* border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; */
 
     h2 {
       color: white;

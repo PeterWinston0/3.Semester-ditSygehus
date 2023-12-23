@@ -40,7 +40,7 @@ export default {
           }
           // Redirect or handle success as needed
           // For example, redirect to hospital list
-          this.$router.push('/');
+          this.$router.push('/admin/listhospital');
         })
         .catch(error => {
           console.error('Error adding hospital:', error);
@@ -49,3 +49,10 @@ export default {
   },
 };
 </script>
+
+<style>
+  
+
+
+
+</style>
