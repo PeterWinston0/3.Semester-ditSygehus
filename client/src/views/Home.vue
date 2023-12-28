@@ -2,7 +2,7 @@
   <div>
     <div class="btn-wrap">
       <div class="btn">
-        <router-link to="/login" class="wrap">Akutmodtagelse</router-link>
+        <router-link to="e-patientform" class="wrap">Akutmodtagelse</router-link>
       </div>
       <div class="btn">
         <router-link to="patienthospitals" class="wrap">Patientforløb</router-link>

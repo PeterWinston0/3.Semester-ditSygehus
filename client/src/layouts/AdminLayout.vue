@@ -5,7 +5,8 @@
           <h2>DitSygehus</h2>
       </div>
       <div class="akut">
-        <p>Akut Modtagelse</p>
+        <router-link to="/admin/emergency" class="nav-link"><p>Akut Modtagelse</p></router-link>
+        
       </div>
       <Navigation />
     </div>

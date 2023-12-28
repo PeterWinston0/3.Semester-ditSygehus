@@ -5,7 +5,8 @@
       <li
         v-for="hospital in hospitals"
         :key="hospital._id"
-        class="list-group-item">
+        class="list-group-item"
+      >
         <div class="row align-items-center">
           <div class="col-sm-5">
             <router-link
@@ -19,31 +20,6 @@
     </ul>
   </div>
 </template>
-
-
-
-
-<!-- <template>
-  <div>
-    <h1>Vælg Hospital</h1>
-    <ul class="list-group">
-      <li
-        v-for="hospital in hospitals"
-        :key="hospital._id"
-        class="list-group-item">
-        <div class="row align-items-center">
-          <div class="col-sm-5">
-            <router-link
-              :to="{ name: 'department', params: { id: hospital._id } }"
-              class="text-decoration-none"
-              >{{ hospital.name }}</router-link
-            >
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</template> -->
 
 <script>
 export default {
@@ -80,7 +56,7 @@ export default {
   padding: 20px;
   text-align: center;
   background-color: #f8f8f8;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1 {
@@ -119,7 +95,7 @@ h1 {
 }
 
 .hospital-link {
-  color: #007BFF;
+  color: #007bff;
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
