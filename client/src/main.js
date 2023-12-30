@@ -1,12 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store'; // Import the store module
 
-// main.js or main.ts
 import './assets/myStyle.css';
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
+app.use(router);
+app.use(store); // Use the Vuex store
 
-app.mount('#app')
+app.mount('#app');

@@ -153,25 +153,27 @@ const router = createRouter({
         },
         {
           path: "e-patientform",
-          path: "e-patientform",
+          name: "e-patientform",
+          props: true,
           component: () => import("@/views/E-PatientForm.vue"),
           meta: { requiresAuth: true },
         },
         {
           path: "e-hospitalselection",
           name: "e-hospitalselection",
+          props: true,
           component: () => import("@/views/E-HospitalSelection.vue"),
           meta: { requiresAuth: true },
         },
         {
-          path: "e-patientinfo",
-          name: "e-patientinfo",
-          component: () => import("@/views/e-patientinfo.vue"),
-          meta: { requiresAuth: true },
+          path: '/user/e-patientinfo/:ssn/:hospitalId', // Include :hospitalId as a route parameter
+          name: 'e-patientinfo',
+          component: () => import('@/views/E-PatientInfo.vue'),
         },
         {
           path: "e-waitingroom",
-          path: "e-waitingroom",
+          name: "e-waitingroom",
+          props: true,
           component: () => import("@/views/e-waitingroom.vue"),
           meta: { requiresAuth: true },
         },

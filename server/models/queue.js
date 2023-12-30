@@ -6,7 +6,19 @@ const queueSchema = new mongoose.Schema({
     ref: 'Patient',
     required: true,
   },
-  // Add fields for managing the queue status and estimated wait time, if needed
+  hospital: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hospital',
+    required: true,
+  },
+  queueNumber: {
+    type: Number,
+    required: true,
+  },
+  estimatedWaitTime: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Queue', queueSchema);
