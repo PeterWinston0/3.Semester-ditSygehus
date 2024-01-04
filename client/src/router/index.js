@@ -131,6 +131,21 @@ const router = createRouter({
           meta: { requiresAuth: true },
         },
         {
+          path: "support",
+          component: () => import("@/views/Support.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "findway",
+          component: () => import("@/views/FindWay.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: 'pdf-viewer',
+          name: 'pdf-viewer',
+          component: () => import("@/views/Pdf-viewer.vue"),
+        },
+        {
           path: "hospitals/:id",
           name: "department",
           component: () => import("@/views/Departments.vue"),
@@ -156,25 +171,6 @@ const router = createRouter({
           name: "e-patientform",
           props: true,
           component: () => import("@/views/E-PatientForm.vue"),
-          meta: { requiresAuth: true },
-        },
-        {
-          path: "e-hospitalselection",
-          name: "e-hospitalselection",
-          props: true,
-          component: () => import("@/views/E-HospitalSelection.vue"),
-          meta: { requiresAuth: true },
-        },
-        {
-          path: '/user/e-patientinfo/:ssn/:hospitalId', // Include :hospitalId as a route parameter
-          name: 'e-patientinfo',
-          component: () => import('@/views/E-PatientInfo.vue'),
-        },
-        {
-          path: "e-waitingroom",
-          name: "e-waitingroom",
-          props: true,
-          component: () => import("@/views/e-waitingroom.vue"),
           meta: { requiresAuth: true },
         },
         // Other user routes

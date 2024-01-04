@@ -1,25 +1,25 @@
 <template>
-  <div>
+  <div class="registration-form">
     <div v-if="step === 1">
       <h1>Enter Social Security Number</h1>
       <input v-model="patientData.ssn" type="text" placeholder="Social Security Number" />
-      <button @click="nextStep">Next</button>
+      <button @click="nextStep" class="btn">Next</button>
     </div>
 
     <div v-else-if="step === 2">
       <h1>Select Hospital</h1>
-      <ul>
+      <ul class="hospital-list">
         <li v-for="hospital in hospitals" :key="hospital._id">
-          <button @click="() => selectHospital(hospital._id)">{{ hospital.name }}</button>
+          <button @click="() => selectHospital(hospital._id)" class="btn hospital-btn">{{ hospital.name }}</button>
         </li>
       </ul>
     </div>
 
     <div v-else-if="step === 3">
       <h1>Enter Patient Information</h1>
-      <input v-model="patientData.phoneNumber" type="text" placeholder="Phone Number" />
-      <textarea v-model="patientData.description" placeholder="Description"></textarea>
-      <button @click="submitPatientInfo">Submit</button>
+      <input v-model="patientData.phoneNumber" type="text" placeholder="Phone Number" class="input-field" />
+      <textarea v-model="patientData.description" placeholder="Description" class="textarea-field"></textarea>
+      <button @click="submitPatientInfo" class="btn">Submit</button>
     </div>
 
     <div v-else-if="step === 4">
@@ -28,7 +28,7 @@
       <p>Estimated wait time: {{ estimatedWaitTime }} minutes</p>
     </div>
 
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -110,3 +110,59 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.registration-form {
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 150px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.hospital-list {
+  list-style: none;
+  padding: 0;
+}
+
+.hospital-btn {
+  display: block;
+  margin: 10px auto;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+  margin-top: 20px;
+}
+</style>

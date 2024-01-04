@@ -135,10 +135,38 @@ router.get('/:hospitalId/departments/:departmentId/sections/:sectionId', async (
       return res.status(404).json({ message: 'Section not found' });
     }
 
+    console.log("Section Data:", section); // Log the section data
     res.json(section);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+
+
+// router.get('/:hospitalId/departments/:departmentId/sections/:sectionId', async (req, res) => {
+//   try {
+//     const { hospitalId, departmentId, sectionId } = req.params;
+//     const hospital = await Hospital.findById(hospitalId);
+//     if (!hospital) {
+//       return res.status(404).json({ message: 'Hospital not found' });
+//     }
+
+//     const department = hospital.departments.id(departmentId);
+//     if (!department) {
+//       return res.status(404).json({ message: 'Department not found' });
+//     }
+
+//     const section = department.sections.id(sectionId);
+//     if (!section) {
+//       return res.status(404).json({ message: 'Section not found' });
+//     }
+
+//     res.json(section);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
 module.exports = router;

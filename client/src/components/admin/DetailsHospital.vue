@@ -1,24 +1,28 @@
 <template>
-  <div>
-    <h1>Hospital Details</h1>
-    <div v-if="hospital">
+  <div class="hospital-details">
+    <h1>Hospital Detaljer</h1>
+    <div v-if="hospital" class="hospital-info">
       <h2>{{ hospital.name }}</h2>
-      <p>Address: {{ hospital.address }}</p>
-      <p>Phone: {{ hospital.phone }}</p>
-      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary">Create Department</router-link>
-      <button @click="deleteHospital(hospital._id)" class="btn btn-danger text-white rounded">Delete Hospital</button>
+      <p class="hospital-address">Address: {{ hospital.address }}</p>
+      <p class="hospital-phone">Phone: {{ hospital.phone }}</p>
+      <router-link :to="{ name: 'CreateDepartment', params: { hospitalId: hospital._id } }" class="btn btn-primary create-department">Create Department</router-link>
+      <button @click="deleteHospital(hospital._id)" class="btn btn-danger delete-hospital">Delete Hospital</button>
 
-      <div v-if="hospital.departments.length > 0">
-        <h3>Departments</h3>
+      <div v-if="hospital.departments.length > 0" class="departments">
+        <h3>Afdelinger</h3>
         <ul>
+          <!-- Use router-link to make department names clickable links -->
           <li v-for="department in hospital.departments" :key="department._id">
-            {{ department.name }}
-            <router-link :to="{ name: 'DepartmentDetails', params: { departmentId: department._id, hospitalId: hospital._id } }" class="btn btn-sm btn-info">View Details</router-link>
-            <button @click="deleteDepartment(department._id, hospital._id)" class="btn btn-sm btn-danger">Delete</button>
+            <div class="department-item">
+              <router-link :to="{ name: 'DepartmentDetails', params: { departmentId: department._id, hospitalId: hospital._id } }" class="department-link">
+                {{ department.name }}
+              </router-link>
+              <button @click="deleteDepartment(department._id, hospital._id)" class="btn btn-sm btn-danger delete-department">Delete</button>
+            </div>
           </li>
         </ul>
       </div>
-      <div v-else>
+      <div v-else class="no-departments">
         <p>No departments found</p>
       </div>
     </div>
@@ -96,4 +100,80 @@ export default {
 
 <style>
 /* Your styles here */
+.department-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Hospital Details Container */
+.hospital-details {
+  margin: 20px;
+}
+
+/* Hospital Info Section */
+.hospital-info {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Hospital Address and Phone */
+.hospital-address,
+.hospital-phone {
+  margin: 5px 0;
+}
+
+/* Create Department Button */
+.create-department {
+  margin-right: 10px;
+}
+
+/* Departments Section */
+.departments {
+  margin-top: 20px;
+}
+
+/* Department Item */
+.department-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* Department Link */
+.department-link {
+  flex-grow: 1;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Delete Department Button */
+.delete-department {
+  margin-left: 10px;
+  background-color: #ff6961; /* Red color for delete button */
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-department:hover {
+  background-color: #d9534f; /* Darker red color on hover */
+}
+
+/* No Departments Message */
+.no-departments {
+  margin-top: 20px;
+  font-style: italic;
+  color: #888;
+}
 </style>

@@ -2,17 +2,24 @@
   <div>
     <div class="btn-wrap">
       <div class="btn">
-        <router-link to="e-patientform" class="wrap">Akutmodtagelse</router-link>
+        <router-link to="e-patientform" class="wrap"
+          >Akutmodtagelse</router-link
+        >
       </div>
       <div class="btn">
-        <router-link to="patienthospitals" class="wrap">Patientforløb</router-link>
+        <router-link to="patienthospitals" class="wrap"
+          >Patientforløb</router-link
+        >
       </div>
       <div class="btn">
-        <router-link to="/login" class="wrap">Borgersupport</router-link>
+        <router-link to="support" class="wrap">Borgersupport</router-link>
       </div>
       <div class="btn">
-        <router-link to="/login" class="wrap">Find Vej</router-link>
+        <router-link to="findway" class="wrap">Find Vej</router-link>
       </div>
+      <!-- <div class="btn">
+        <router-link to="pdf-viewer" class="wrap">View PDF</router-link>
+      </div> -->
     </div>
   </div>
 </template>

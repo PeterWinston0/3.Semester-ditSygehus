@@ -1,11 +1,20 @@
 <template>
-  <div>
-    <h1>Section Details</h1>
-    <div v-if="section">
+  <div class="section-details">
+    <div v-if="section" class="section-info">
       <h2>{{ section.name }}</h2>
       <p>Section ID: {{ section._id }}</p>
+
+      <!-- Display additional section data -->
+      <div class="additional-info">
+        <h3 v-if="$route.name === 'Contact'" class="info-heading">Contact Information</h3>
+        <p>{{ section.contactName }}</p>
+        <p>{{ section.description }}</p>
+        <p>{{ section.phoneNumber }}</p>
+      </div>
+
+      <!-- Add more sections for displaying other data, if needed -->
     </div>
-    <div v-else>
+    <div v-else class="loading">
       <p>Loading...</p>
     </div>
   </div>
@@ -49,7 +58,40 @@ export default {
 };
 </script>
 
-<style>
-/* Add your styles here */
-</style>
+<style scoped>
+.section-details {
+  padding: 20px;
+}
 
+.section-info {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.additional-info {
+  margin-top: 20px;
+}
+
+.info-heading {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+}
+</style>

@@ -1,26 +1,28 @@
 <template>
-  <div>
+  <div class="department-details">
     <h1>Department Details</h1>
-    <div v-if="department">
+    <div v-if="department" class="department-info">
       <h2>{{ department.name }}</h2>
       <p>Department ID: {{ department._id }}</p>
-      <button
-        @click="deleteDepartment(department._id, hospitalId)"
-        class="btn btn-danger text-white rounded"
-      >
-        Delete Department
-      </button>
-      <router-link
-        :to="{
-          name: 'CreateSection',
-          params: { departmentId: department._id, hospitalId: hospitalId },
-        }"
-        class="btn btn-primary"
-      >
-        Create Section
-      </router-link>
-      <h3>Sections:</h3>
-      <ul v-if="department.sections.length > 0">
+      <div class="button-container">
+        <router-link
+          :to="{
+            name: 'CreateSection',
+            params: { departmentId: department._id, hospitalId: hospitalId },
+          }"
+          class="btn btn-primary"
+        >
+          Tilføj Modul
+        </router-link>
+        <button
+          @click="deleteDepartment(department._id, hospitalId)"
+          class="btn btn-danger rounded"
+        >
+          Slet Afdeling
+        </button>
+      </div>
+      <h3>Moduler:</h3>
+      <ul v-if="department.sections.length > 0" class="section-list">
         <li v-for="section in department.sections" :key="section._id">
           <router-link
             :to="{
@@ -106,5 +108,56 @@ export default {
 </script>
 
 <style>
-/* Your styles here */
+.department-details {
+  padding: 20px;
+}
+
+.department-info {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #d9534f;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.section-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.section-list li {
+  margin-bottom: 10px;
+}
 </style>

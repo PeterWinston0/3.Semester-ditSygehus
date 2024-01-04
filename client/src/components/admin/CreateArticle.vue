@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="create-news-article-container">
     <h1>Create News Article</h1>
 
-    <form @submit.prevent="submitArticle">
+    <form @submit.prevent="submitArticle" class="article-form">
       <!-- Dropdown to select hospital -->
-      <div>
+      <div class="form-group">
         <label for="hospital">Select Hospital:</label>
-        <select v-model="selectedHospital" @change="loadDepartments">
+        <select v-model="selectedHospital" @change="loadDepartments" class="form-control">
           <option v-for="hospital in hospitals" :key="hospital._id" :value="hospital._id">
             {{ hospital.name }}
           </option>
@@ -14,32 +14,32 @@
       </div>
 
       <!-- Dropdown to select department -->
-      <div v-if="selectedHospital">
+      <div v-if="selectedHospital" class="form-group">
         <label for="department">Select Department:</label>
-        <select v-model="selectedDepartment">
+        <select v-model="selectedDepartment" class="form-control">
           <option v-for="department in departments" :key="department._id" :value="department._id">
             {{ department.name }}
           </option>
         </select>
       </div>
 
-      <div>
+      <div class="form-group">
         <label for="title">Title:</label>
-        <input type="text" id="title" v-model="article.title" required />
+        <input type="text" id="title" v-model="article.title" class="form-control" required />
       </div>
 
-      <div>
+      <div class="form-group">
         <label for="content">Content:</label>
-        <textarea id="content" v-model="article.content" required></textarea>
+        <textarea id="content" v-model="article.content" class="form-control" required></textarea>
       </div>
 
-      <div>
+      <div class="form-group">
         <label for="image">Image:</label>
-        <input type="file" id="image" @change="handleImageUpload" />
-        <img :src="imageUrl" alt="Article Image" v-if="imageUrl" />
+        <input type="file" id="image" @change="handleImageUpload" class="form-control" />
+        <img :src="imageUrl" alt="Article Image" v-if="imageUrl" class="uploaded-image" />
       </div>
 
-      <button type="submit">Create Article</button>
+      <button type="submit" class="btn btn-primary">Create Article</button>
     </form>
   </div>
 </template>
@@ -134,6 +134,58 @@ export default {
 };
 </script>
 
-<style>
-/* Add CSS as needed for styling */
+<style scoped>
+.create-news-article-container {
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.article-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
 </style>

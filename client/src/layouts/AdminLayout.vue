@@ -2,11 +2,10 @@
   <div class="layout">
     <div class="side-nav">
       <div class="logo">
-          <h2>DitSygehus</h2>
+        <h2>DitSygehus</h2>
       </div>
       <div class="akut">
         <router-link to="/admin/emergency" class="nav-link"><p>Akut Modtagelse</p></router-link>
-        
       </div>
       <Navigation />
     </div>
@@ -26,6 +25,8 @@
       </div>
       <div class="content-area">
         <main>
+          <!-- Add a button to go back to the previous page -->
+          <button @click="goToPreviousPage" class="btn btn-secondary">Tilbage</button>
           <router-view />
         </main>
       </div>
@@ -84,6 +85,10 @@ export default {
         console.error('Error fetching user data:', error);
       }
     },
+    goToPreviousPage() {
+      // Use Vue Router to navigate back to the previous page
+      this.$router.go(-1);
+    },
   },
   computed: {
     profilePictureUrl() {
@@ -101,4 +106,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* Add your styles here */
+</style>

@@ -1,4 +1,24 @@
 <template>
+  <div class="hospital-list-container">
+    <h1>Hospital List</h1>
+    <ul class="list-group">
+      <li v-for="hospital in hospitals" :key="hospital._id" class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col-sm-8">
+            <router-link :to="{ name: 'DetailsHospital', params: { id: hospital._id }}" class="hospital-link">{{ hospital.name }}</router-link>
+          </div>
+          <div class="col-sm-4 d-flex justify-content-end">
+            <button @click="deleteHospital(hospital._id)" class="btn btn-danger delete-btn">Delete</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+
+
+<!-- <template>
     <div>
       <h1>Hospital List</h1>
       <ul class="list-group">
@@ -14,7 +34,7 @@
         </li>
       </ul>
     </div>
-  </template>
+  </template> -->
   
   <script>
   export default {
@@ -66,6 +86,64 @@
   };
   </script>
   
-  <style lang="css" scoped>
-  /* Your styles here */
+  <style scoped>
+  .hospital-list-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .list-group {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .list-group-item {
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .row {
+    align-items: center;
+  }
+  
+  .col-sm-8 {
+    font-size: 18px;
+  }
+  
+  .hospital-link {
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s ease;
+  }
+  
+  .hospital-link:hover {
+    color: #2980b9;
+  }
+  
+  .col-sm-4 {
+    text-align: right;
+  }
+  
+  .delete-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    background-color: #d9534f;
+  }
   </style>
