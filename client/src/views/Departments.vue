@@ -4,8 +4,8 @@
     <div v-if="hospital">
       <div class="hospital-info">
         <h2>{{ hospital.name }}</h2>
-        <p>Address: {{ hospital.address }}</p>
-        <p>Phone: {{ hospital.phone }}</p>
+        <p class="info-text">Address: {{ hospital.address }}</p>
+        <p class="info-text">Phone: {{ hospital.phone }}</p>
       </div>
 
       <div v-if="hospital.departments.length > 0">
@@ -25,13 +25,42 @@
                 },
               }"
               class="department-link"
-              >{{ department.name }}</router-link
             >
+              {{ department.name }}
+            </router-link>
           </li>
         </ul>
       </div>
       <div v-else>
         <p>No departments found</p>
+      </div>
+
+      <div v-if="articles.length > 0">
+        <h3>Related Articles</h3>
+        <ul class="article-list">
+          <li
+            v-for="article in articles"
+            :key="article._id"
+            class="article-item"
+          >
+            <h4>{{ article.title }}</h4>
+            <p>{{ article.content }}</p>
+            <img
+              v-if="article.imagePath"
+              :src="article.imagePath"
+              alt="Article Image"
+              class="article-image"
+            />
+            <router-link
+              :to="{
+                name: 'ArticleDetails',
+                params: { articleId: article._id },
+              }"
+            >
+              Read More
+            </router-link>
+          </li>
+        </ul>
       </div>
     </div>
     <div v-else>
@@ -45,6 +74,7 @@ export default {
   data() {
     return {
       hospital: null,
+      articles: [],
     };
   },
   created() {
@@ -54,38 +84,37 @@ export default {
     fetchHospitalDetails() {
       const hospitalId = this.$route.params.id;
       fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
           this.hospital = data;
+          this.$emit("update-title", data.name);
         })
-        .catch((error) => {
-          console.error("Error fetching hospital details:", error);
-        });
+        .catch((error) =>
+          console.error("Error fetching hospital details:", error)
+        );
+    },
+    fetchArticlesForHospital(hospitalId) {
+      fetch(`http://localhost:3000/api/articles/hospital/${hospitalId}`)
+        .then((response) => response.json())
+        .then((data) => (this.articles = data))
+        .catch((error) => console.error("Error fetching articles:", error));
     },
   },
 };
 </script>
 
 <style scoped>
-/* .hospital-details */
 .hospital-details {
   padding: 20px;
   text-align: center;
   background-color: #f8f8f8;
 }
 
-/* h1 */
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-/* .hospital-info */
 .hospital-info {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -96,24 +125,20 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* .hospital-info h2 */
 .hospital-info h2 {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-/* .hospital-info p */
-.hospital-info p {
+.info-text {
   margin: 5px 0;
 }
 
-/* .department-list */
 .department-list {
   list-style: none;
   padding: 0;
 }
 
-/* .department-item */
 .department-item {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -126,8 +151,7 @@ h1 {
   align-items: center;
 }
 
-/* .view-details-btn */
-.department-item .view-details-btn {
+.department-link {
   background-color: #007bff;
   color: #fff;
   padding: 5px 10px;
@@ -136,13 +160,31 @@ h1 {
   transition: background-color 0.3s ease;
 }
 
-/* .view-details-btn:hover */
-.department-item .view-details-btn:hover {
+.department-link:hover {
   background-color: #0056b3;
 }
 
-/* p */
-p {
-  margin: 10px 0;
+.article-list {
+  list-style: none;
+  padding: 0;
+}
+
+.article-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.article-item h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.article-image {
+  max-width: 100%;
+  margin-top: 10px;
 }
 </style>

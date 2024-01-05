@@ -124,21 +124,27 @@ const router = createRouter({
         {
           path: "home", // User home route
           component: () => import("@/views/Home.vue"),
+          meta: { requiresAuth: true, title: 'Velkommen' },
         },
         {
           path: "patienthospitals",
           component: () => import("@/views/PatientHospitals.vue"),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, title: 'Vælg Hospital' },
         },
         {
           path: "support",
           component: () => import("@/views/Support.vue"),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, title: 'Borgersupport' },
         },
         {
           path: "findway",
           component: () => import("@/views/FindWay.vue"),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, title: 'Find Vej' },
+        },
+        {
+          path: '/:articleId',
+          name: 'ArticleDetails',
+          component: () => import("@/views/ArticleDetails.vue"),
         },
         {
           path: 'pdf-viewer',
@@ -171,7 +177,7 @@ const router = createRouter({
           name: "e-patientform",
           props: true,
           component: () => import("@/views/E-PatientForm.vue"),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, title: 'Akutmodtagelse' },
         },
         // Other user routes
       ],

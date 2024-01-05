@@ -2,31 +2,38 @@
   <div>
     <div class="header">
       <button @click="goBack">Tilbage</button>
-      <h2>Velkommen</h2>
-
-      <!-- <Logout /> -->
+      <h2>{{ pageTitle }}</h2>
     </div>
 
     <main>
-      <router-view />
+      <router-view @update-title="updateTitle" />
     </main>
-
-    <footer></footer>
   </div>
 </template>
 
 <script>
-import Logout from "../components/Logout.vue";
 export default {
-  name: "UserLayout",
-
-  components: {
-    Logout,
+  name: 'UserLayout',
+  data() {
+    return {
+      pageTitle: '',
+    };
+  },
+  watch: {
+    '$route'(to) {
+      this.pageTitle = to.meta.title || '';
+    },
   },
   methods: {
+    updateTitle(newTitle) {
+      this.pageTitle = newTitle;
+    },
     goBack() {
       this.$router.go(-1); // Navigate back to the previous page
     },
+  },
+  created() {
+    this.pageTitle = this.$route.meta.title || '';
   },
 };
 </script>
@@ -42,8 +49,6 @@ export default {
     box-sizing: border-box;
     padding: 15px;
     height: 15vh;
-    /* border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px; */
 
     h2 {
       color: white;

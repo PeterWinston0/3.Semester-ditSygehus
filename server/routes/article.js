@@ -100,4 +100,16 @@ router.delete("/:articleId", async (req, res) => {
   }
 });
 
+// New route to get articles by hospital ID
+router.get("/hospital/:hospitalId", async (req, res) => {
+  try {
+    const hospitalId = req.params.hospitalId;
+    const articles = await Article.find({ hospitalId: hospitalId });
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 module.exports = router;

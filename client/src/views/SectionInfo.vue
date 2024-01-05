@@ -2,17 +2,15 @@
   <div class="section-details">
     <div v-if="section" class="section-info">
       <h2>{{ section.name }}</h2>
-      <p>Section ID: {{ section._id }}</p>
 
-      <!-- Display additional section data -->
       <div class="additional-info">
-        <h3 v-if="$route.name === 'Contact'" class="info-heading">Contact Information</h3>
+        <h3 v-if="$route.name === 'Contact'" class="info-heading">
+          Contact Information
+        </h3>
         <p>{{ section.contactName }}</p>
         <p>{{ section.description }}</p>
         <p>{{ section.phoneNumber }}</p>
       </div>
-
-      <!-- Add more sections for displaying other data, if needed -->
     </div>
     <div v-else class="loading">
       <p>Loading...</p>
@@ -40,18 +38,20 @@ export default {
       this.departmentId = this.$route.params.departmentId;
       this.sectionId = this.$route.params.sectionId;
 
-      fetch(`http://localhost:3000/api/hospitals/${this.hospitalId}/departments/${this.departmentId}/sections/${this.sectionId}`)
-        .then(response => {
+      fetch(
+        `http://localhost:3000/api/hospitals/${this.hospitalId}/departments/${this.departmentId}/sections/${this.sectionId}`
+      )
+        .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           this.section = data;
         })
-        .catch(error => {
-          console.error('Error fetching section details:', error);
+        .catch((error) => {
+          console.error("Error fetching section details:", error);
         });
     },
   },

@@ -32,41 +32,6 @@
   </div>
 </template>
 
-
-
-
-
-
-<!-- <template>
-  <div>
-    <h1>Admin Queue Management</h1>
-    <select v-model="selectedHospital" @change="fetchQueue">
-      <option disabled value="">Select a Hospital</option>
-      <option
-        v-for="hospital in hospitals"
-        :value="hospital._id"
-        :key="hospital._id"
-      >
-        {{ hospital.name }}
-      </option>
-    </select>
-
-    <div v-if="selectedHospital">
-      <h2>Queue for {{ selectedHospitalName }}</h2>
-      <ul>
-        <li v-for="item in queueInfo" :key="item.queueNumber">
-          Patient SSN: {{ item.patientSSN }}, Queue Number:
-          {{ item.queueNumber }}, Estimated Wait Time:
-          {{ item.estimatedWaitTime }} minutes
-          <button @click="removePatientFromQueue(item.queueNumber)">
-            Remove
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</template> -->
-
 <script>
 export default {
   data() {

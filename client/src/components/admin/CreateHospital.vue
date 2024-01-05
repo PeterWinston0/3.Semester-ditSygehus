@@ -1,15 +1,3 @@
-<!-- <template>
-  <div>
-    <h1>Add Hospital</h1>
-    <form @submit.prevent="addHospital">
-      <input type="text" v-model="name" placeholder="Hospital Name" required>
-      <input type="text" v-model="address" placeholder="Hospital Address" required>
-
-      <button type="submit">Add Hospital</button>
-    </form>
-  </div>
-</template> -->
-
 <template>
   <div class="add-hospital-container">
     <h1>Add Hospital</h1>

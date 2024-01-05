@@ -47,7 +47,6 @@ export default {};
         text-decoration: none;
         color: black;
         font-weight: 600;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         font-size: 14px;
       }
     }

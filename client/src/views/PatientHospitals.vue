@@ -1,6 +1,5 @@
 <template>
   <div class="hospital-selection">
-    <h1>Vælg Hospital</h1>
     <ul class="list-group">
       <li
         v-for="hospital in hospitals"
