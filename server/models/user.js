@@ -20,6 +20,15 @@ let userSchema = new Schema({
     min: 6,
     max: 255
   },
+  ssn: {
+    type: String,
+    required: true,
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'other'],
+    required: true,
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
@@ -27,7 +36,7 @@ let userSchema = new Schema({
   },
   profilePicture: {
     type: String, // Storing the path or URL to the profile picture
-    default: '/default-profile-picture.jpg' // You can set a default picture here if needed
+    default: '/uploads/profile-picture.jpg' // You can set a default picture here if needed
   },
   date: {
     type: Date,

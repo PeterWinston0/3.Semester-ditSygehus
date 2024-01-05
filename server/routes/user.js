@@ -1,15 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/user');
+const User = require("../models/user");
+
+const bcrypt = require("bcrypt");
 
 // Create a new user
-router.post('/users', async (req, res) => {
+router.post("/users", async (req, res) => {
   try {
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role || 'user' // Default role is 'user' if not provided
+      role: req.body.role || "user", // Default role is 'user' if not provided
     });
 
     const savedUser = await user.save();
@@ -20,7 +22,7 @@ router.post('/users', async (req, res) => {
 });
 
 // Get all users
-router.get('/users', async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -30,12 +32,12 @@ router.get('/users', async (req, res) => {
 });
 
 // Get a specific user by ID
-router.get('/users/:id', getUser, (req, res) => {
+router.get("/users/:id", getUser, (req, res) => {
   res.json(res.user);
 });
 
 // Update a user by ID
-router.patch('/users/:id', getUser, async (req, res) => {
+router.patch("/users/:id", getUser, async (req, res) => {
   if (req.body.name != null) {
     res.user.name = req.body.name;
   }
@@ -57,10 +59,10 @@ router.patch('/users/:id', getUser, async (req, res) => {
 });
 
 // Delete a user by ID
-router.delete('/users/:id', getUser, async (req, res) => {
+router.delete("/users/:id", getUser, async (req, res) => {
   try {
     await res.user.remove();
-    res.json({ message: 'User deleted' });
+    res.json({ message: "User deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -71,7 +73,7 @@ async function getUser(req, res, next) {
   try {
     user = await User.findById(req.params.id);
     if (user == null) {
-      return res.status(404).json({ message: 'Cannot find user' });
+      return res.status(404).json({ message: "Cannot find user" });
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -79,5 +81,29 @@ async function getUser(req, res, next) {
   res.user = user;
   next();
 }
+
+// Create a new user
+router.post("/users/register", async (req, res) => {
+  try {
+    const saltRounds = 10; // Number of salt rounds for bcrypt hashing
+
+    // Hash the user's password
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword, // Store the hashed password
+      ssn: req.body.ssn,
+      gender: req.body.gender,
+      role: "user", // Default role is 'user'
+    });
+
+    const savedUser = await user.save();
+    res.json(savedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 module.exports = router;

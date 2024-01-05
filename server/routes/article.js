@@ -112,4 +112,16 @@ router.get("/hospital/:hospitalId", async (req, res) => {
   }
 });
 
+// New route to get articles by department ID
+router.get("/departments/:departmentId", async (req, res) => {
+  try {
+    const departmentId = req.params.departmentId;
+    const articles = await Article.find({ departmentId: departmentId });
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles by department:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 module.exports = router;

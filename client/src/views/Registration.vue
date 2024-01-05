@@ -15,12 +15,17 @@
         <input type="password" id="password" v-model="password" required />
       </div>
       <div class="form-group">
-        <label for="role">Role:</label>
-        <select id="role" v-model="role">
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
+        <label for="ssn">Social Security Number (SSN):</label>
+        <input type="text" id="ssn" v-model="ssn" required />
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" v-model="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
         </select>
-      </div>  
+      </div>
       <button type="submit" class="btn-register">Register</button>
     </form>
     <p class="text-center mt-4">
@@ -42,7 +47,8 @@ export default {
       name: "",
       email: "",
       password: "",
-      role: "user", // Set default role to 'user'
+      ssn: "",
+      gender: "male", // Set default gender to 'Male'
       errorMessage: "",
       successMessage: "",
     };
@@ -55,15 +61,16 @@ export default {
       if (
         this.name.length < 6 ||
         this.email.length < 6 ||
-        this.password.length < 6
+        this.password.length < 6 ||
+        this.ssn.length === 0
       ) {
-        this.errorMessage = "Please enter at least 6 characters for all fields";
+        this.errorMessage = "Please enter valid information for all fields";
         return;
       }
 
       // Send registration request to server
       try {
-        const response = await fetch("http://localhost:3000/api/user/register", {
+        const response = await fetch("http://localhost:3000/api/users/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +79,9 @@ export default {
             name: this.name,
             email: this.email,
             password: this.password,
-            role: this.role, // Include the role in the request body
+            ssn: this.ssn,
+            gender: this.gender,
+            role: "user", // Set role as 'user' by default
           }),
         });
 

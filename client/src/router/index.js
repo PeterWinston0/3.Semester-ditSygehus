@@ -7,7 +7,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/landing", // Redirect to login page initially
+      redirect: "/landing", 
     },
     {
       path: "/landing",
@@ -122,7 +122,7 @@ const router = createRouter({
       component: UserLayout,
       children: [
         {
-          path: "home", // User home route
+          path: "home",
           component: () => import("@/views/Home.vue"),
           meta: { requiresAuth: true, title: 'Velkommen' },
         },
@@ -179,18 +179,16 @@ const router = createRouter({
           component: () => import("@/views/E-PatientForm.vue"),
           meta: { requiresAuth: true, title: 'Akutmodtagelse' },
         },
-        // Other user routes
       ],
     },
-    // Other routes or a catch-all route if needed
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem("token"); // Check if the token exists
+  const isAuthenticated = localStorage.getItem("token");
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    // Redirect to login if attempting to access a protected route without authentication
+    
     next("/landing");
   } else {
     next();

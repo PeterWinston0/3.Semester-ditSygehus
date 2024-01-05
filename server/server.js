@@ -72,8 +72,8 @@ const swaggerDefinition = yaml.load("./swagger.yaml");
 app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDefinition));
 
 // Serve the main HTML file for all routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html')); // Adjust the path as needed
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/index.html")); // Adjust the path as needed
 });
 
 // Error handling middleware

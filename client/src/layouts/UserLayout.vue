@@ -4,7 +4,6 @@
       <button @click="goBack">Tilbage</button>
       <h2>{{ pageTitle }}</h2>
     </div>
-
     <main>
       <router-view @update-title="updateTitle" />
     </main>
@@ -29,7 +28,7 @@ export default {
       this.pageTitle = newTitle;
     },
     goBack() {
-      this.$router.go(-1); // Navigate back to the previous page
+      this.$router.go(-1);
     },
   },
   created() {

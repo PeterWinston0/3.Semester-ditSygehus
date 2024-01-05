@@ -1,7 +1,6 @@
 <template>
   <div class="section-details">
     <div v-if="section" class="section-info">
-      <h2>{{ section.name }}</h2>
 
       <div class="additional-info">
         <h3 v-if="$route.name === 'Contact'" class="info-heading">
@@ -33,7 +32,6 @@ export default {
   },
   methods: {
     fetchSectionDetails() {
-      // Fetch section details based on route parameters
       this.hospitalId = this.$route.params.hospitalId;
       this.departmentId = this.$route.params.departmentId;
       this.sectionId = this.$route.params.sectionId;
@@ -49,6 +47,7 @@ export default {
         })
         .then((data) => {
           this.section = data;
+          this.$emit('update-title', data.name); // Emit event to update the title
         })
         .catch((error) => {
           console.error("Error fetching section details:", error);
