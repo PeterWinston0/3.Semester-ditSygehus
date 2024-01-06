@@ -4,6 +4,19 @@ const User = require("../models/user");
 
 const bcrypt = require("bcrypt");
 
+
+router.get("/users/count", async (req, res) => {
+  try {
+    const maleCount = await User.countDocuments({ gender: "male" });
+    const femaleCount = await User.countDocuments({ gender: "female" });
+
+    res.json({ maleCount, femaleCount });
+  } catch (err) {
+    console.error("Error in /api/users/count route:", err); // Log the error
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Create a new user
 router.post("/users", async (req, res) => {
   try {
@@ -82,21 +95,20 @@ async function getUser(req, res, next) {
   next();
 }
 
-// Create a new user
 router.post("/users/register", async (req, res) => {
   try {
-    const saltRounds = 10; // Number of salt rounds for bcrypt hashing
-
-    // Hash the user's password
-    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: hashedPassword, // Store the hashed password
+      password: hashedPassword,
+      jobTitle: req.body.jobTitle,
       ssn: req.body.ssn,
+      hospitalId: req.body.hospitalId,
+      departmentId: req.body.departmentId,
       gender: req.body.gender,
-      role: "user", // Default role is 'user'
+      role: req.body.role,
+      
     });
 
     const savedUser = await user.save();
@@ -105,5 +117,21 @@ router.post("/users/register", async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+
+// Get the details of the logged-in user
+router.get("/user/me", async (req, res) => {
+  // Assuming you have some method of authentication to get the user ID
+  try {
+    const userId = req.userId; // Replace with actual logic to get user ID from the request
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 module.exports = router;

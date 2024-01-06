@@ -15,6 +15,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+async function fetchArticleViewsFromDatabase() {
+  return await Article.find({}, 'title views -_id');
+}
+
+router.get("/views", async (req, res) => {
+  try {
+    const articleViews = await fetchArticleViewsFromDatabase();
+    res.status(200).json(articleViews);
+  } catch (error) {
+    console.error("Error fetching article views:", error);
+    res.status(500).json({ error: "Error fetching article views" });
+  }
+});
+
 router.post("/create-article", upload.single("image"), async (req, res) => {
   try {
     const { title, content, hospitalId, departmentId } = req.body;
@@ -121,6 +135,25 @@ router.get("/departments/:departmentId", async (req, res) => {
   } catch (error) {
     console.error("Error fetching articles by department:", error);
     res.status(500).json({ error: "Server Error" });
+  }
+});
+
+// Add a route to increment article views
+router.put("/:articleId/increment-views", async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.articleId);
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    // Increment the views count
+    article.views += 1;
+    await article.save();
+
+    res.status(200).json({ message: "Article views incremented successfully" });
+  } catch (error) {
+    console.error("Error incrementing article views:", error);
+    res.status(500).json({ error: "Error incrementing article views" });
   }
 });
 

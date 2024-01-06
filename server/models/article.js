@@ -23,6 +23,10 @@ const articleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Department', // Reference to the Department model if needed
   },
+  views: {
+    type: Number,
+    default: 0, // Initial views count is 0
+  },
 });
 
 // Create the Article model

@@ -14,9 +14,7 @@
     </form>
     <p class="text-center mt-4">
       Don't have an account?
-      <router-link to="/registration" class="text-blue-500 hover:underline"
-        >Register</router-link
-      >
+      <router-link to="/registration" class="text-blue-500 hover:underline">Register</router-link>
     </p>
   </div>
 </template>
@@ -31,84 +29,53 @@ export default {
   },
   methods: {
     async login() {
-      // Perform form validation
       if (!this.email || !this.password) {
         alert("Please fill in all fields");
         return;
       }
 
-      // Prepare the login data to be sent to the server
-      const loginData = {
-        email: this.email,
-        password: this.password,
-      };
+      const loginData = { email: this.email, password: this.password };
 
-      // Send the login data to the server
       try {
         const response = await fetch("http://localhost:3000/api/user/login", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(loginData),
         });
 
         const data = await response.json();
 
-        if (response.ok) {
-          // Login successful
-          const token = data.data.token;
-          localStorage.setItem("token", token); // Save the token to localStorage
-
-          try {
-            const response = await fetch(
-              "http://localhost:3000/api/user/login",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(loginData),
-              }
-            );
-
-            const data = await response.json();
-
-            if (response.ok) {
-              // Login successful
-              const token = data.data.token;
-              const userRole = data.data.role;
-
-              // Save the token to localStorage
-              localStorage.setItem("token", token);
-
-              // Redirect based on user role
-              if (userRole === "admin") {
-                this.$router.push("/admin/dashboard");
-              } else {
-                this.$router.push("/user/home");
-              }
-            } else {
-              // Login failed, display error message to the user
-              console.error("Failed to login:", data.error);
-              alert(
-                "Failed to login. Please check your credentials and try again."
-              );
-            }
-          } catch (error) {
-            // Handle network or server errors
-            console.error("Error during login:", error);
-            alert("An error occurred during login. Please try again.");
-          }
-        } else {
-          // Login failed, display error message to the user
+        if (!response.ok) {
           console.error("Failed to login:", data.error);
-          alert(
-            "Failed to login. Please check your credentials and try again."
-          );
+          alert("Failed to login. Please check your credentials and try again.");
+          return;
+        }
+
+        const token = data.data.token;
+        localStorage.setItem("token", token);
+
+        // Fetch user details
+        try {
+          const userDetailsResponse = await fetch("http://localhost:3000/api/users", {
+            headers: { "Authorization": `Bearer ${token}` },
+          });
+
+          const userDetails = await userDetailsResponse.json();
+
+          if (!userDetailsResponse.ok) {
+            throw new Error(userDetails.error);
+          }
+
+          // Dispatch action to update user data in Vuex store
+          this.$store.dispatch('updateUserData', userDetails);
+
+          // Redirect to appropriate page based on user role
+          this.$router.push(data.data.role === "admin" ? "/admin/dashboard" : "/user/home");
+        } catch (error) {
+          console.error("Failed to fetch user details:", error);
+          alert("Failed to fetch user details. Please try again.");
         }
       } catch (error) {
-        // Handle network or server errors
         console.error("Error during login:", error);
         alert("An error occurred during login. Please try again.");
       }

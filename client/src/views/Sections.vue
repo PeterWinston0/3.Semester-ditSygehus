@@ -30,7 +30,7 @@
         <h3 class="article-heading">Related Articles</h3>
         <ul class="article-list">
           <li
-            v-for="article in articles"
+            v-for="(article, index) in visibleArticles"
             :key="article._id"
             class="article-item"
           >
@@ -44,6 +44,9 @@
             />
           </li>
         </ul>
+        <button @click="loadMore" v-if="visibleArticleCount < articles.length">
+          See More
+        </button>
       </div>
       <p v-else>No related articles found.</p>
     </div>
@@ -60,6 +63,7 @@ export default {
       department: null,
       articles: [],
       hospitalId: null,
+      visibleArticleCount: 3, // Initial visible articles count
     };
   },
   created() {
@@ -86,8 +90,18 @@ export default {
     fetchArticlesForDepartment(departmentId) {
       fetch(`http://localhost:3000/api/articles/departments/${departmentId}`)
         .then((response) => response.json())
-        .then((data) => (this.articles = data))
+        .then((data) => {
+          this.articles = data;
+        })
         .catch((error) => console.error("Error fetching articles:", error));
+    },
+    loadMore() {
+      this.visibleArticleCount += 3;
+    },
+  },
+  computed: {
+    visibleArticles() {
+      return this.articles.slice(0, this.visibleArticleCount);
     },
   },
 };

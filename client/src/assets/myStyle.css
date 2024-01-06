@@ -22,6 +22,7 @@ main {
   box-sizing: border-box;
   width: 100%;
   height: 10%;
+  background-color: green;
 }
 .admin-header .profile-dropdown .user-header {
   cursor: pointer;
@@ -58,7 +59,7 @@ main {
 }
 
 .side-nav {
-  width: 15%;
+  width: 20%;
   transition: width 0.3s;
   background: #f9fafe;
   height: auto;
@@ -89,4 +90,32 @@ main {
   font-weight: 400;
   font-size: 14px;
   color: white;
+}
+
+.user-counts {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.user-counts .male {
+  background-color: #4882AD !important;
+  height: 150px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.user-counts .male .user-count {
+  margin-top: 18%;
+  font-size: 28px;
+  font-weight: 700;
+}
+.user-counts .female {
+  background-color: rgb(241, 201, 208);
+  height: 150px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.user-counts .female .user-count {
+  margin-top: 18%;
+  font-size: 28px;
+  font-weight: 700;
 }/*# sourceMappingURL=myStyle.css.map */

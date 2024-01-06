@@ -34,7 +34,132 @@
         <p>No departments found</p>
       </div>
       <div v-if="articles.length > 0">
-        <h3>Related Articles</h3>
+        <h3>Læs lidt om os</h3>
+        <ul class="article-list">
+          <li
+            v-for="(article, index) in visibleArticles"
+            :key="article._id"
+            class="article-item"
+          >
+            <router-link
+              :to="{
+                name: 'ArticleDetails',
+                params: { articleId: article._id },
+              }"
+            >
+              <h4>{{ article.title }}</h4>
+              <p>{{ article.content }}</p>
+              <img
+                v-if="article.imagePath"
+                :src="article.imagePath"
+                alt="Article Image"
+                class="article-image"
+              />
+            </router-link>
+          </li>
+        </ul>
+        <button @click="loadMore" v-if="visibleArticleCount < articles.length">
+          See More
+        </button>
+      </div>
+    </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hospital: null,
+      articles: [],
+      visibleArticleCount: 3, // Initial visible articles count
+    };
+  },
+  created() {
+    this.fetchHospitalDetails();
+  },
+  methods: {
+    fetchHospitalDetails() {
+      const hospitalId = this.$route.params.id;
+      fetch(`http://localhost:3000/api/hospitals/${hospitalId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          this.hospital = data;
+          this.$emit("update-title", data.name);
+          this.fetchArticlesForHospital(hospitalId);
+        })
+        .catch((error) =>
+          console.error("Error fetching hospital details:", error)
+        );
+    },
+    fetchArticlesForHospital(hospitalId) {
+      fetch(`http://localhost:3000/api/articles/hospital/${hospitalId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          this.articles = data;
+        })
+        .catch((error) => console.error("Error fetching articles:", error));
+    },
+    loadMore() {
+      // Increase the visibleArticleCount by 3
+      this.visibleArticleCount += 3;
+    },
+  },
+  computed: {
+    visibleArticles() {
+      // Slice the articles array based on visibleArticleCount
+      return this.articles.slice(0, this.visibleArticleCount);
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+<!-- <template>
+  <div class="hospital-details">
+    <h1>Sygehus Detaljer</h1>
+    <div v-if="hospital">
+      <div class="hospital-info">
+        <h2>{{ hospital.name }}</h2>
+        <p class="info-text">Address: {{ hospital.address }}</p>
+        <p class="info-text">Phone: {{ hospital.phone }}</p>
+      </div>
+      <div v-if="hospital.departments.length > 0">
+        <h3>Afdelinger</h3>
+        <ul class="department-list">
+          <li
+            v-for="department in hospital.departments"
+            :key="department._id"
+            class="department-item"
+          >
+            <router-link
+              :to="{
+                name: 'sections',
+                params: {
+                  departmentId: department._id,
+                  hospitalId: hospital._id,
+                },
+              }"
+              class="department-link"
+            >
+              {{ department.name }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <p>No departments found</p>
+      </div>
+      <div v-if="articles.length > 0">
+        <h3>Læs lidt om os</h3>
         <ul class="article-list">
           <li
             v-for="article in articles"
@@ -101,7 +226,7 @@ export default {
     },
   },
 };
-</script>
+</script> -->
 
 <style scoped>
 .hospital-details {

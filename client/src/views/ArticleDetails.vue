@@ -1,17 +1,17 @@
 <template>
-    <div class="article-details" v-if="article">
-      <h1 class="article-title">{{ article.title }}</h1>
-      <img
-        v-if="article.imagePath"
-        :src="article.imagePath"
-        alt="Article Image"
-        class="article-image"
-      />
-      <div class="article-content" v-html="article.content"></div>
-    </div>
-    <div v-else>
-      <p>Loading article...</p>
-    </div>
+  <div class="article-details" v-if="article">
+    <h1 class="article-title">{{ article.title }}</h1>
+    <img
+      v-if="article.imagePath"
+      :src="article.imagePath"
+      alt="Article Image"
+      class="article-image"
+    />
+    <div class="article-content" v-html="article.content"></div>
+  </div>
+  <div v-else>
+    <p>Loading article...</p>
+  </div>
 </template>
 
 <script>
@@ -29,9 +29,22 @@ export default {
       const articleId = this.$route.params.articleId;
       fetch(`http://localhost:3000/api/articles/${articleId}`)
         .then((response) => response.json())
-        .then((data) => (this.article = data))
+        .then((data) => {
+          this.article = data;
+          // Increment views count
+          this.incrementArticleViews(articleId);
+        })
         .catch((error) =>
           console.error("Error fetching article details:", error)
+        );
+    },
+    incrementArticleViews(articleId) {
+      fetch(`http://localhost:3000/api/articles/${articleId}/increment-views`, {
+        method: "PUT",
+      })
+        .then((response) => response.json())
+        .catch((error) =>
+          console.error("Error incrementing article views:", error)
         );
     },
   },

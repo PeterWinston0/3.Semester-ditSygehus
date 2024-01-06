@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-let userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -24,6 +23,11 @@ let userSchema = new Schema({
     type: String,
     required: true,
   },
+  jobTitle: {
+    type: String,
+    min: 3,
+    max: 255
+  },
   gender: {
     type: String,
     enum: ['male', 'female', 'other'],
@@ -35,13 +39,17 @@ let userSchema = new Schema({
     default: 'user',
   },
   profilePicture: {
-    type: String, // Storing the path or URL to the profile picture
-    default: '/uploads/profile-picture.jpg' // You can set a default picture here if needed
+    type: String,
+    default: '/uploads/profile-picture.jpg'
   },
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  hospitalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hospital',
+  },
+  departmentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department',
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
