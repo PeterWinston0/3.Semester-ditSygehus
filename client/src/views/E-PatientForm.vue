@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="registration-form">
     <div v-if="step === 2">
       <h1>Select Hospital</h1>
@@ -111,7 +111,7 @@ export default {
 
 <style>
 /* Add your CSS here */
-</style>
+</style> -->
 
 
 
@@ -233,7 +233,7 @@ export default {
 
 
 
-<!-- <template>
+<template>
   <div class="registration-form">
     <div v-if="step === 1">
       <h1>Enter Social Security Number</h1>
@@ -344,7 +344,7 @@ export default {
     this.fetchHospitals();
   }
 };
-</script> -->
+</script>
 
 <style scoped>
 .registration-form {

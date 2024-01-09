@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the Article Schema
 const articleSchema = new Schema({
   title: {
     type: String,
@@ -11,25 +10,24 @@ const articleSchema = new Schema({
     type: String,
     required: true,
   },
-  imagePath: { // New field to store the image path
+  imagePath: { 
     type: String,
     required: true,
   },
   hospitalId: {
     type: Schema.Types.ObjectId,
-    ref: 'Hospital', // Reference to the Hospital model if needed
+    ref: 'Hospital', 
   },
   departmentId: {
     type: Schema.Types.ObjectId,
-    ref: 'Department', // Reference to the Department model if needed
+    ref: 'Department', 
   },
   views: {
     type: Number,
-    default: 0, // Initial views count is 0
+    default: 0, 
   },
 });
 
-// Create the Article model
 const Article = mongoose.model('Article', articleSchema);
 
 module.exports = Article;
